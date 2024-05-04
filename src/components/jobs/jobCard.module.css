@@ -1,0 +1,37 @@
+.jobCard {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px gray;
+  transition: transform 0.5s ease;
+}
+
+.jobCard:hover {
+  transform: scale(1.05);
+}
+
+.chip {
+  background-color: #fff;
+  font-size: 10px;
+  border: 1px solid lightgray;
+  padding: 0px 5px 0px 5px;
+}
+
+.logoAndDetails > .details > p:nth-child(1) {
+  color: rgb(170, 170, 170);
+}
+
+.logoAndDetails > .details > p:not(:nth-child(2)) {
+  font-size: 13px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.logo > img {
+  height: 40px;
+  width: auto;
+}
