@@ -1,4 +1,4 @@
-import { Box, FormControl, Select, TextField, Typography } from "@mui/material";
+import { Box, FormControl } from "@mui/material";
 import React from "react";
 
 const Filter = () => {
