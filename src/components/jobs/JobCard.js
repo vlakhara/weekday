@@ -1,8 +1,7 @@
+import BoltIcon from "@mui/icons-material/Bolt";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import styles from "./jobCard.module.css";
-import BoltIcon from "@mui/icons-material/Bolt";
-import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 const JobCard = ({ job }) => {
   const getPostedAgoDayString = () => {
     const num = getRandomNumber(10);

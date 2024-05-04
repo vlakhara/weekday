@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialFilterState = {
   roles: [],
-  employees: { from: 0, to: 0 },
-  experience: 0,
-  jobType: "",
+  employees: [],
+  experience: "",
+  remote: [],
   tecks: [],
-  basePay: 0,
+  basePay: "",
   searchText: "",
 };
 
@@ -16,9 +16,11 @@ export const FilterSlice = createSlice({
   reducers: {
     updateFilter: (state, action) => {
       state = { ...state, ...action.payload };
+      return state;
     },
     resetFilter: (state) => {
       state = initialFilterState;
+      return state;
     },
   },
 });

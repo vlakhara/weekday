@@ -20,7 +20,8 @@ const Jobs = () => {
 
   useEffect(() => {
     dispatch(fetchData(page, jobs));
-  }, [page]);
+    // eslint-disable-next-line
+  }, [page, dispatch]);
 
   const observer = useRef();
   const lastJobCard = useCallback(

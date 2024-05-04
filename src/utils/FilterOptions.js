@@ -59,3 +59,22 @@ export const EXPERIENCE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 export const JOB_TYPE = ["Remote", "Hybrid", "In-Office"];
 
 export const MIN_BASE_SALARY = [0, 10, 20, 30, 40, 50, 60, 70];
+
+export const TECKS = [
+  "Python",
+  "Java",
+  "GoLang",
+  "Ruby/Rails",
+  "C++",
+  "Kotlin",
+  "Django",
+  "C#",
+  "GraphQL",
+  "Flask",
+  "TypeScript",
+  "AWS",
+  "JavaScript",
+  "Rust",
+  "NodeJS",
+  "React",
+];

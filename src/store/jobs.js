@@ -12,12 +12,15 @@ export const JobsSlice = createSlice({
   reducers: {
     addJobs: (state, action) => {
       state.jobs = action.payload;
+      return state;
     },
     setTotal: (state, action) => {
       state.total = action.payload;
+      return state;
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
+      return state;
     },
   },
 });
