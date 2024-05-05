@@ -8,7 +8,6 @@ import {
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../../store/filter.js";
-import { getRandomNumber } from "../../utils/common.js";
 
 const SelectComp = ({
   label,
@@ -21,7 +20,9 @@ const SelectComp = ({
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const handleChange = (value) => {
-    let updatedValue = value.map((item) => item?.label ?? item);
+    let updatedValue = multiple
+      ? value.map((item) => item?.label ?? item)
+      : value;
     const filterData = { ...filter };
     filterData[name] = updatedValue ?? "";
     dispatch(updateFilter(filterData));
