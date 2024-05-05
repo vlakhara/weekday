@@ -8,13 +8,15 @@ import {
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../../store/filter.js";
+import { getRandomNumber } from "../../utils/common.js";
 
-const DropDown = ({ label, name, options = [], multiple = false }) => {
+const SelectComp = ({ label, name, options = [], multiple = false }) => {
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const handleChange = (value) => {
+    let updatedValue = value.map((item) => item?.label ?? item);
     const filterData = { ...filter };
-    filterData[name] = value ?? "";
+    filterData[name] = updatedValue ?? "";
     dispatch(updateFilter(filterData));
   };
 
@@ -34,7 +36,11 @@ const DropDown = ({ label, name, options = [], multiple = false }) => {
       )}
       <Autocomplete
         autoHighlight
+        freeSolo
         options={options}
+        getOptionLabel={(options) =>
+          !!options.label ? options.label : options
+        }
         multiple={multiple}
         onChange={(_, value) => handleChange(value)}
         value={filter[name]}
@@ -43,7 +49,7 @@ const DropDown = ({ label, name, options = [], multiple = false }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder={!filter[name].length && label}
+            placeholder={!filter[name].length ? label : ""}
             fullWidth
             size="small"
           />
@@ -53,4 +59,4 @@ const DropDown = ({ label, name, options = [], multiple = false }) => {
   );
 };
 
-export default DropDown;
+export default SelectComp;

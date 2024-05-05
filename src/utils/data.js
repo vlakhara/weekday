@@ -5,7 +5,7 @@ import {
   getRandomNumber,
   getRandomTecks,
 } from "./common";
-import { isFilterApplied } from "./filterUtils";
+import { isFilterApplied } from "./filter-utils";
 
 const myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
@@ -13,6 +13,11 @@ myHeaders.append("Content-Type", "application/json");
 const LIMIT = 10;
 let offset = 0;
 
+/**
+ * @purpose Fetch Jobs Data
+ * @param {*}
+ * @returns Filtered Data
+ */
 export const fetchData =
   (page = 1, oldData = []) =>
   async (dispatch) => {
@@ -32,6 +37,11 @@ export const fetchData =
       );
       const data = await response.json();
 
+      /**
+       * Some Data were not in job item, so I added some data to make filters work
+       * getPostedAgoDayString, getRandomNumber from minExp if Null, getRandomTecks, getRandomNoOfEmployees
+       */
+
       const updatedDate = data?.jdList?.map((item) => ({
         ...item,
         postedDate: getPostedAgoDayString(),
@@ -48,8 +58,13 @@ export const fetchData =
     }
   };
 
-export const filterdData = (tempJobsData, filter) => (dispatch) => {
-  dispatch(setLoading(true));
+/**
+ * @purpose Get Filtered Data
+ * @param {*} tempJobsData
+ * @param {*} filter
+ * @returns Filtered Data
+ */
+export const filterdData = (tempJobsData, filter) => {
   const { filterKeys } = isFilterApplied(filter);
   const data = tempJobsData?.filter((item) => {
     let flag = {};
@@ -74,13 +89,13 @@ export const filterdData = (tempJobsData, filter) => (dispatch) => {
       flag.tecks = filter.tecks.some((tech) => item.tecks.includes(tech));
     }
     if (filter.basePay.length) {
-      flag.basePay = item.minJdSalary >= filter.basePay;
+      const salaryToCompare = item.minJdSalary ?? item.maxJdSalary;
+      flag.basePay = salaryToCompare >= filter.basePay;
     }
     if (filter.employees.length) {
       flag.employees = filter.employees.includes(item.noOfEmployees);
     }
     return filterKeys.every((item) => flag[item]);
   });
-  dispatch(setLoading(false));
   return data;
 };

@@ -1,4 +1,4 @@
-import { Box, Grid, Skeleton, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, {
   useCallback,
   useEffect,
@@ -7,40 +7,51 @@ import React, {
   useState,
 } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoading } from "../../store/jobs";
 import { fetchData, filterdData } from "../../utils/data";
-import { isFilterApplied } from "../../utils/filterUtils";
-import JobCard from "./JobCard";
+import { isFilterApplied } from "../../utils/filter-utils";
+import Loading from "../common/Loading";
+import NoDataFound from "../common/NoDataFound";
+import Card from "./Card";
 
 const Jobs = () => {
   const [jobsData, setJobsData] = useState([]);
-  const { jobs = [], loading, total } = useSelector((state) => state.jobs);
-  const filter = useSelector((state) => state.filter);
-  const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const filter = useSelector((state) => state.filter);
+  const { jobs = [], loading, total } = useSelector((state) => state.jobs);
+  const dispatch = useDispatch();
+
   const hasMoreData = useMemo(() => {
     return jobs?.length < total;
   }, [total, jobs]);
 
+  /**
+   * Get Filtered Data
+   */
   useEffect(() => {
     const tempJobsData = [...jobs];
     const { isApplied } = isFilterApplied(filter);
     if (!isApplied) {
       setJobsData(tempJobsData);
     } else {
-      setJobsData(dispatch(filterdData(tempJobsData, filter)));
+      setJobsData(filterdData(tempJobsData, filter));
     }
   }, [jobs, filter]);
 
+  /**
+   * Fetch data
+   */
   useEffect(() => {
     dispatch(fetchData(page, jobs));
     // eslint-disable-next-line
   }, [page, dispatch]);
 
+  /**
+   *  Logic for infinite Scroll
+   */
   const observer = useRef();
   const lastJobCard = useCallback(
     (node) => {
-      if (loading) return;
+      if (loading || !node) return;
       if (observer.current) observer.current?.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMoreData) {
@@ -54,40 +65,36 @@ const Jobs = () => {
 
   return (
     <Grid container spacing={3} mt={2}>
-      {jobsData.map((job, index) => {
-        if (jobsData.length === index + 1) {
+      {!!jobsData.length &&
+        jobsData.map((job, index) => {
+          if (jobsData.length === index + 1) {
+            return (
+              <Grid
+                key={`${job?.jdUid}_${index}`}
+                ref={lastJobCard}
+                item
+                lg={4}
+                md={6}
+                xs={12}
+              >
+                <Card job={job} />
+              </Grid>
+            );
+          }
           return (
-            <Grid
-              key={`${job?.jdUid}_${index}`}
-              ref={lastJobCard}
-              item
-              lg={4}
-              md={6}
-              xs={12}
-            >
-              <JobCard job={job} />
+            <Grid key={`${job?.jdUid}_${index}`} item lg={4} md={6} xs={12}>
+              <Card job={job} />
             </Grid>
           );
-        }
-        return (
-          <Grid key={`${job?.jdUid}_${index}`} item lg={4} md={6} xs={12}>
-            <JobCard job={job} />
-          </Grid>
-        );
-      })}
+        })}
       {!loading && !jobsData.length && (
         <Grid item xs={12}>
-          <Box>
-            <Typography>No Data Found</Typography>
-          </Box>
+          <NoDataFound />
         </Grid>
       )}
       {loading && (
         <Grid item xs={12} pl={4}>
-          <Skeleton variant="rounded" animation="wave" sx={{ mt: 2 }} />
-          <Skeleton variant="rounded" animation="wave" sx={{ mt: 2 }} />
-          <Skeleton variant="rounded" animation="wave" sx={{ mt: 2 }} />
-          <Skeleton variant="rounded" animation="wave" sx={{ mt: 2 }} />
+          <Loading />
         </Grid>
       )}
     </Grid>

@@ -98,3 +98,7 @@
 .applyButton > p > svg {
   color: #ff822d;
 }
+
+.commonString {
+  letter-spacing: 1px;
+}

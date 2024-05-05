@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, styled } from "@mui/material";
 import React from "react";
 import {
   EXPERIENCE,
@@ -7,73 +7,63 @@ import {
   NUMBER_EMPLOYEES,
   ROLES,
   TECKS,
-} from "../../utils/filterUtils";
-import DropDown from "./DropDown";
+} from "../../utils/filter-utils";
 import CustomInput from "./CustomInput";
+import SelectComp from "./SelectComp";
 
+const StyledGrid = styled(Grid)`
+  display: flex;
+  align-items: flex-end;
+  min-width: 200px;
+  width: ${({ theme }) =>
+    theme.breakpoints.between("sm", "lg")} ? 'unset' : 'auto';
+`;
+
+/**
+ * Filter
+ *
+ * Some filter might filter different data because of some of the data is randomly
+ * generated so those data might change on each load
+ *
+ * @returns HtmlElement
+ */
 const Filter = () => {
   return (
     <Grid container spacing={0.5}>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
-        <DropDown
-          label="Roles"
-          name="roles"
-          key="roles"
-          multiple
-          options={ROLES}
-        />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
-        <DropDown
+      <StyledGrid key="roles" item>
+        <SelectComp label="Roles" name="roles" multiple options={ROLES} />
+      </StyledGrid>
+      <StyledGrid key="employees" item>
+        <SelectComp
           label="No Of Employees"
           name="employees"
-          key="employees"
           multiple
           options={NUMBER_EMPLOYEES}
         />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="150px">
-        <DropDown
-          label="Experience"
-          name="experience"
-          key="experience"
-          options={EXPERIENCE}
-        />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
-        <DropDown
-          label="Remote"
-          name="remote"
-          key="remote"
-          multiple
-          options={JOB_TYPE}
-        />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
-        <DropDown
-          label="Teck Stack"
-          name="tecks"
-          key="tecks"
-          multiple
-          options={TECKS}
-        />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
-        <DropDown
+      </StyledGrid>
+      <StyledGrid key="experience" item>
+        <SelectComp label="Experience" name="experience" options={EXPERIENCE} />
+      </StyledGrid>
+      <StyledGrid key="remote" item>
+        <SelectComp label="Remote" name="remote" multiple options={JOB_TYPE} />
+      </StyledGrid>
+      <StyledGrid key="tecks" item>
+        <SelectComp label="Teck Stack" name="tecks" multiple options={TECKS} />
+      </StyledGrid>
+      <StyledGrid key="basePay" item>
+        <SelectComp
           label="Min Base Pay Salary"
           name="basePay"
-          key="basePay"
           options={MIN_BASE_SALARY}
         />
-      </Grid>
-      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
+      </StyledGrid>
+      <StyledGrid key="searchText" item>
         <CustomInput
           label="Search Text"
           name="searchText"
-          key="searchText"
           placeholder="Search company name"
         />
-      </Grid>
+      </StyledGrid>
     </Grid>
   );
 };
