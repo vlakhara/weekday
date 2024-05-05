@@ -54,11 +54,11 @@ export const NUMBER_EMPLOYEES = [
   "500+",
 ];
 
-export const EXPERIENCE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+export const EXPERIENCE = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
 export const JOB_TYPE = ["Remote", "Hybrid", "In-Office"];
 
-export const MIN_BASE_SALARY = [0, 10, 20, 30, 40, 50, 60, 70];
+export const MIN_BASE_SALARY = ["0", "10", "20", "30", "40", "50", "60", "70"];
 
 export const TECKS = [
   "Python",
@@ -78,3 +78,15 @@ export const TECKS = [
   "NodeJS",
   "React",
 ];
+
+export const isFilterApplied = (filter) => {
+  const filterKeys = Object.keys(filter)
+    .map((item) => {
+      if (filter[item].length > 0) {
+        return item;
+      }
+      return null;
+    })
+    .filter((item) => item);
+  return { isApplied: !!filterKeys.length, filterKeys };
+};

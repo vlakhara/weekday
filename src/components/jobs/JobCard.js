@@ -2,39 +2,17 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import { Box, Grid, Typography } from "@mui/material";
 import React from "react";
 import styles from "./jobCard.module.css";
+import {
+  getFormatedString,
+  truncateString,
+  updateExperienceStr,
+} from "../../utils/common";
 const JobCard = ({ job }) => {
-  const getPostedAgoDayString = () => {
-    const num = getRandomNumber(10);
-    return num === 1 ? `Posted ${num} day ago` : `Posted ${num} days ago`;
-  };
-
-  const getRandomNumber = (range) => {
-    return Math.ceil(Math.random() * range);
-  };
-
-  const getUpdatedString = (str = "") => {
-    const nameArr = str?.split(" ");
-    return nameArr
-      .map((item) => item?.charAt(0).toLocaleUpperCase() + item.slice(1))
-      .join(" ");
-  };
-
-  const truncateString = (string) => {
-    return string?.length > 600 ? string.substring(0, 597) + "..." : string;
-  };
-
-  const updateExperienceStr = (year) => {
-    const exp = year ?? getRandomNumber(6);
-    return exp === 1 ? `${exp} year` : `${exp} years`;
-  };
-
   return (
     <Box className={`${styles.jobCard} job-card`}>
       <Grid container px={2.5} py={2.5}>
         <Grid item xs={12}>
-          <Typography className={styles.chip}>
-            ⏳{getPostedAgoDayString()}
-          </Typography>
+          <Typography className={styles.chip}>⏳{job?.postedDate}</Typography>
         </Grid>
         <Grid
           item
@@ -49,15 +27,20 @@ const JobCard = ({ job }) => {
           </Grid>
           <Grid item xs={10} className={styles.details}>
             <Typography component="p">
-              {getUpdatedString(job?.companyName)}
+              {getFormatedString(job?.companyName)}
             </Typography>
             <Typography component="p">
-              {getUpdatedString(job?.jobRole)}
+              {getFormatedString(job?.jobRole)}
             </Typography>
             <Typography component="p">
-              {getUpdatedString(job?.location)}
+              {getFormatedString(job?.location)}
             </Typography>
           </Grid>
+        </Grid>
+        <Grid item xs={12} mt={2} display="flex" gap={1}>
+          {job?.tecks?.map((item) => (
+            <Typography className={styles.chip}>{item}</Typography>
+          ))}
         </Grid>
         <Grid item xs={12} mt={1}>
           <Typography>{`Estimated Salary: ${job?.minJdSalary ?? ""}${
@@ -81,6 +64,9 @@ const JobCard = ({ job }) => {
           <Typography className={styles.experience}>
             {updateExperienceStr(job?.minExp)}
           </Typography>
+        </Grid>
+        <Grid item xs={12} mt={1}>
+          <Typography>{`Employees: ${job?.noOfEmployees}`}</Typography>
         </Grid>
         <Grid item xs={12} mt={1.5}>
           <button className={styles.applyButton}>

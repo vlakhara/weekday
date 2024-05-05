@@ -5,25 +5,34 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../../store/filter.js";
 
-const DropDown = ({ label, name, options = [], multiple = false }) => {
+const CustomInput = ({ label, name, placeholder }) => {
   const filter = useSelector((state) => state.filter);
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
-  const handleChange = (value) => {
+
+  const handleChange = (text) => {
     const filterData = { ...filter };
-    filterData[name] = value ?? "";
+    filterData[name] = text ?? "";
     dispatch(updateFilter(filterData));
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleChange(text);
+    }, 500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [text]);
+
   const showLabel = useMemo(() => {
-    if (multiple) {
-      return !!filter[name].length;
-    }
     return !!filter[name];
-  }, [name, filter, multiple]);
+  }, [name, filter]);
 
   return (
     <FormControl fullWidth>
@@ -32,25 +41,15 @@ const DropDown = ({ label, name, options = [], multiple = false }) => {
           <Typography fontWeight="600">{label}</Typography>
         </FormLabel>
       )}
-      <Autocomplete
-        autoHighlight
-        options={options}
-        multiple={multiple}
-        onChange={(_, value) => handleChange(value)}
-        value={filter[name]}
+      <TextField
+        placeholder={placeholder}
         fullWidth
+        value={text}
+        onChange={({ target: { value } }) => setText(value)}
         size="small"
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder={!filter[name].length && label}
-            fullWidth
-            size="small"
-          />
-        )}
       />
     </FormControl>
   );
 };
 
-export default DropDown;
+export default CustomInput;

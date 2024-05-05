@@ -1,9 +1,10 @@
 import { Container, Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import "./App.css";
-import Filter from "./components/filter";
-import Jobs from "./components/jobs";
+
 import theme from "./theme";
+import Filter from "./components/filter/Filter";
+import Jobs from "./components/jobs/Jobs";
 
 function App() {
   return (

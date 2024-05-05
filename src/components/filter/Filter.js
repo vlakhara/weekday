@@ -7,8 +7,9 @@ import {
   NUMBER_EMPLOYEES,
   ROLES,
   TECKS,
-} from "../../utils/FilterOptions";
+} from "../../utils/filterUtils";
 import DropDown from "./DropDown";
+import CustomInput from "./CustomInput";
 
 const Filter = () => {
   return (
@@ -63,6 +64,14 @@ const Filter = () => {
           name="basePay"
           key="basePay"
           options={MIN_BASE_SALARY}
+        />
+      </Grid>
+      <Grid item display="flex" alignItems="flex-end" minWidth="200px">
+        <CustomInput
+          label="Search Text"
+          name="searchText"
+          key="searchText"
+          placeholder="Search company name"
         />
       </Grid>
     </Grid>
