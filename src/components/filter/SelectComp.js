@@ -37,10 +37,8 @@ const SelectComp = ({ label, name, options = [], multiple = false }) => {
       <Autocomplete
         autoHighlight
         freeSolo
+        forcePopupIcon
         options={options}
-        getOptionLabel={(options) =>
-          !!options.label ? options.label : options
-        }
         multiple={multiple}
         onChange={(_, value) => handleChange(value)}
         value={filter[name]}
