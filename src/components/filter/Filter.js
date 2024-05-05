@@ -31,7 +31,13 @@ const Filter = () => {
   return (
     <Grid container spacing={0.5}>
       <StyledGrid key="roles" item>
-        <SelectComp label="Roles" name="roles" multiple options={ROLES} />
+        <SelectComp
+          label="Roles"
+          name="roles"
+          multiple
+          options={ROLES}
+          isGrouped
+        />
       </StyledGrid>
       <StyledGrid key="employees" item>
         <SelectComp

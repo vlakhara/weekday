@@ -37,7 +37,9 @@ export const formattedSalaryString = (min, max) => {
 export const getRandomTecks = () => {
   const tecks = [];
   while (true) {
-    const randomTech = TECKS[Math.floor(Math.random() * TECKS.length)];
+    const randomTech = TECKS.map((item) => item.label)[
+      Math.floor(Math.random() * TECKS.length)
+    ];
     if (tecks.includes(randomTech)) continue;
     tecks.push(randomTech);
     if (tecks.length === 3) break;
@@ -52,5 +54,7 @@ export const getRandomTecks = () => {
  * @returns String
  */
 export const getRandomNoOfEmployees = () => {
-  return NUMBER_EMPLOYEES[Math.floor(Math.random() * NUMBER_EMPLOYEES.length)];
+  return NUMBER_EMPLOYEES.map((item) => item.label)[
+    Math.floor(Math.random() * NUMBER_EMPLOYEES.length)
+  ];
 };

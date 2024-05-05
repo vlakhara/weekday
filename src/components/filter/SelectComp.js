@@ -10,7 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFilter } from "../../store/filter.js";
 import { getRandomNumber } from "../../utils/common.js";
 
-const SelectComp = ({ label, name, options = [], multiple = false }) => {
+const SelectComp = ({
+  label,
+  name,
+  options = [],
+  multiple = false,
+  isGrouped = false,
+}) => {
+  const otherProps = {};
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   const handleChange = (value) => {
@@ -27,6 +34,10 @@ const SelectComp = ({ label, name, options = [], multiple = false }) => {
     return !!filter[name];
   }, [name, filter, multiple]);
 
+  if (isGrouped) {
+    otherProps.groupBy = (option) => option.category;
+  }
+
   return (
     <FormControl fullWidth>
       {showLabel && (
@@ -39,6 +50,9 @@ const SelectComp = ({ label, name, options = [], multiple = false }) => {
         freeSolo
         forcePopupIcon
         options={options}
+        getOptionLabel={(option) => {
+          return option?.label ?? option;
+        }}
         multiple={multiple}
         onChange={(_, value) => handleChange(value)}
         value={filter[name]}
@@ -52,6 +66,7 @@ const SelectComp = ({ label, name, options = [], multiple = false }) => {
             size="small"
           />
         )}
+        {...otherProps}
       />
     </FormControl>
   );
